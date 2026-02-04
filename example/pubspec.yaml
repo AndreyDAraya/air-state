@@ -1,0 +1,21 @@
+name: air_state_example
+description: Demonstrates how to use air_state for reactive state management.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.10.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  air_state:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
