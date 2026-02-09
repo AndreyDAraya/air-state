@@ -50,7 +50,7 @@ abstract class AirState {
         // Fallback for direct data emission (if supported by delegate)
         callback(eventData as T);
       }
-    });
+    }, sourceId: moduleId);
 
     _subscriptions.add(sub);
   }
@@ -101,7 +101,11 @@ abstract class AirState {
 
   /// Conveniently listen to a signal (dynamic)
   void onRawSignal(String signalName, void Function(dynamic data) callback) {
-    final sub = Air.delegate.subscribe(signalName, callback);
+    final sub = Air.delegate.subscribe(
+      signalName,
+      callback,
+      sourceId: moduleId,
+    );
     _subscriptions.add(sub);
   }
 

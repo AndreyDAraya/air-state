@@ -10,7 +10,7 @@ abstract class AirDelegate {
     bool isError = false,
   });
 
-  /// Record a module interaction for analytics/security
+  /// RECORD a module interaction for analytics/security
   void recordInteraction(
     String sourceId,
     String targetId,
@@ -18,12 +18,19 @@ abstract class AirDelegate {
     String detail,
   );
 
+  /// Check if a source has permission to access a state key
+  bool canAccess(String key, {String? sourceId});
+
   /// Emit a pulse/action to the system
   void pulse(String action, dynamic params, {String? sourceId});
 
   /// Subscribe to a system pulse/action
   /// Returns a subscription object that implies a `cancel()` method or similar.
-  dynamic subscribe(String action, void Function(dynamic) callback);
+  dynamic subscribe(
+    String action,
+    void Function(dynamic) callback, {
+    String? sourceId,
+  });
 }
 
 /// A default no-op / simple delegate for standalone usage or testing
@@ -53,12 +60,22 @@ class DefaultAirDelegate implements AirDelegate {
   }
 
   @override
+  bool canAccess(String key, {String? sourceId}) {
+    // Default allows all access
+    return true;
+  }
+
+  @override
   void pulse(String action, dynamic params, {String? sourceId}) {
     _controller.add({'action': action, 'data': params, 'source': sourceId});
   }
 
   @override
-  dynamic subscribe(String action, void Function(dynamic) callback) {
+  dynamic subscribe(
+    String action,
+    void Function(dynamic) callback, {
+    String? sourceId,
+  }) {
     return _controller.stream.listen((event) {
       if (event['action'] == action) {
         callback(event['data']);

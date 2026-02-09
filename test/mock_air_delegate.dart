@@ -35,7 +35,21 @@ class MockAirDelegate implements AirDelegate {
   }
 
   @override
-  dynamic subscribe(String action, void Function(dynamic) callback) {
+  bool canAccess(String key, {String? sourceId}) {
+    interactions.add({
+      'type': 'canAccess',
+      'key': key,
+      'sourceId': sourceId ?? 'unknown',
+    });
+    return true;
+  }
+
+  @override
+  dynamic subscribe(
+    String action,
+    void Function(dynamic) callback, {
+    String? sourceId,
+  }) {
     // No-op for mock unless needed
   }
 }

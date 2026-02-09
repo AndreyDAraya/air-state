@@ -5,7 +5,7 @@ import 'air_controller.dart';
 ///
 /// Automatically creates or retrieves the state identified by [stateKey]
 /// and rebuilds when that state changes.
-class AirBuilder<T> extends StatelessWidget {
+class AirBuilder<T> extends StatefulWidget {
   /// The key identifying the state to listen to.
   final String stateKey;
 
@@ -27,27 +27,43 @@ class AirBuilder<T> extends StatelessWidget {
   });
 
   @override
+  State<AirBuilder<T>> createState() => _AirBuilderState<T>();
+}
+
+class _AirBuilderState<T> extends State<AirBuilder<T>> {
+  @override
+  void initState() {
+    super.initState();
+    _checkAccess();
+  }
+
+  void _checkAccess() {
+    // Check if the caller has permission to access this state
+    final hasAccess = Air.delegate.canAccess(
+      widget.stateKey,
+      sourceId: widget.callerModuleId,
+    );
+
+    if (!hasAccess) {
+      throw Exception(
+        'Access Denied: Module "${widget.callerModuleId}" does not have permission '
+        'to access state "${widget.stateKey}".',
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final airController = Air().state<T>(stateKey, initialValue: initialValue);
+    // We pass callerModuleId to the state method to ensure subscription tracking
+    final airController = Air().state<T>(
+      widget.stateKey,
+      initialValue: widget.initialValue,
+    );
 
     return ListenableBuilder(
       listenable: airController,
       builder: (context, _) {
-        // Track interaction if caller is known and target module can be inferred
-        if (callerModuleId != null) {
-          final targetModuleId = stateKey.contains('.')
-              ? stateKey.split('.').first
-              : null;
-          if (targetModuleId != null && targetModuleId != callerModuleId) {
-            Air.delegate.recordInteraction(
-              targetModuleId, // Source of data
-              callerModuleId!, // Target (consumer)
-              'data',
-              stateKey,
-            );
-          }
-        }
-        return builder(context, airController.value);
+        return widget.builder(context, airController.value);
       },
     );
   }
@@ -59,6 +75,7 @@ class AirBuilder2<T1, T2> extends StatelessWidget {
   final T1? initial1;
   final String key2;
   final T2? initial2;
+  final String? callerModuleId;
   final Widget Function(BuildContext context, T1 v1, T2 v2) builder;
 
   const AirBuilder2({
@@ -67,6 +84,7 @@ class AirBuilder2<T1, T2> extends StatelessWidget {
     this.initial1,
     required this.key2,
     this.initial2,
+    this.callerModuleId,
     required this.builder,
   });
 
@@ -75,10 +93,12 @@ class AirBuilder2<T1, T2> extends StatelessWidget {
     return AirBuilder<T1>(
       stateKey: key1,
       initialValue: initial1,
+      callerModuleId: callerModuleId,
       builder: (context, v1) {
         return AirBuilder<T2>(
           stateKey: key2,
           initialValue: initial2,
+          callerModuleId: callerModuleId,
           builder: (context, v2) {
             return builder(context, v1, v2);
           },
@@ -96,6 +116,7 @@ class AirBuilder3<T1, T2, T3> extends StatelessWidget {
   final T2? initial2;
   final String key3;
   final T3? initial3;
+  final String? callerModuleId;
   final Widget Function(BuildContext context, T1 v1, T2 v2, T3 v3) builder;
 
   const AirBuilder3({
@@ -106,6 +127,7 @@ class AirBuilder3<T1, T2, T3> extends StatelessWidget {
     this.initial2,
     required this.key3,
     this.initial3,
+    this.callerModuleId,
     required this.builder,
   });
 
@@ -116,10 +138,12 @@ class AirBuilder3<T1, T2, T3> extends StatelessWidget {
       initial1: initial1,
       key2: key2,
       initial2: initial2,
+      callerModuleId: callerModuleId,
       builder: (context, v1, v2) {
         return AirBuilder<T3>(
           stateKey: key3,
           initialValue: initial3,
+          callerModuleId: callerModuleId,
           builder: (context, v3) {
             return builder(context, v1, v2, v3);
           },
