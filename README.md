@@ -1,5 +1,11 @@
 # Air State
 
+<p align="center">
+  <img src="assets/air-aero.svg" width="200" alt="Air State Logo" />
+</p>
+
+[![docs](https://img.shields.io/badge/docs-air--framework.flutter.md-blue)](https://air-framework.flutter.md/)
+
 A lightweight, modular, and reactive state management library designed for the Air Framework, but usable in any Flutter application.
 
 `air_state` provides a clean API for managing global state, tracking dependencies, and building reactive UIs without boilerplate.
@@ -18,7 +24,7 @@ Add `air_state` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  air_state: ^1.0.0
+  air_state: any
 ```
 
 ## Usage
@@ -76,6 +82,12 @@ AirView((context) {
 - **Observers**: Add global observers for logging or debugging.
 - **Event Bus**: Use `Air.pulse` to send signals across the app.
 - **Computed State**: Create derived states that update automatically (coming soon).
+
+## 📖 Documentation
+
+For the full documentation, guides, and API reference visit:
+
+👉 **[air-framework.flutter.md](https://air-framework.flutter.md/)**
 
 ## License
 
