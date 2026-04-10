@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.4
+
+### Bug Fixes
+
+- **Fixed silent data loss in `StatePersistence._serialize()`**: Custom model objects with `toJson()` or `toMap()` methods now serialize correctly. Previously, the existence check `obj.toJson != null` always threw `NoSuchMethodError` (swallowed by a catch), causing all custom models to fall back to `.toString()` — making restore impossible. Now calls `toJson()`/`toMap()` directly inside a try-catch.
+- **Fixed subscription leaks in `AirState.dispose()`**: Simplified the disposal logic to a single `try { (sub as dynamic).cancel() } catch (_) {}` block. The previous implementation had unreachable branches and silently swallowed cancellation errors, leaving subscriptions alive after dispose.
+- **Removed unused `dart:async` import** from `air_state_base.dart`.
+
 ## 1.0.3
 
 - **Visual Identity**: Added the official Air Framework SVG logo.

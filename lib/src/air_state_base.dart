@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'air_controller.dart';
 import 'air_pulse.dart';
@@ -118,20 +117,10 @@ abstract class AirState {
 
   /// Dispose all subscriptions
   void dispose() {
-    for (var sub in _subscriptions) {
-      if (sub is StreamSubscription) {
-        sub.cancel();
-      } else if (sub is List && sub.isNotEmpty && sub.first is Function) {
-        // Handle cancellation if it's a function or object with cancel method
-        // Since we don't know exact type from delegate, we try common patterns or user dynamic
-        try {
-          (sub as dynamic).cancel();
-        } catch (_) {}
-      } else {
-        try {
-          (sub as dynamic).cancel();
-        } catch (_) {}
-      }
+    for (final sub in _subscriptions) {
+      try {
+        (sub as dynamic).cancel();
+      } catch (_) {}
     }
     _subscriptions.clear();
   }

@@ -224,18 +224,12 @@ class AirStatePersistence {
 
     // Try toJson for custom objects
     try {
-      final dynamic obj = value;
-      if (obj.toJson != null) {
-        return _serialize(obj.toJson());
-      }
+      return _serialize((value as dynamic).toJson());
     } catch (_) {}
 
     // Try toMap for custom objects
     try {
-      final dynamic obj = value;
-      if (obj.toMap != null) {
-        return _serialize(obj.toMap());
-      }
+      return _serialize((value as dynamic).toMap());
     } catch (_) {}
 
     // Fallback to string representation
