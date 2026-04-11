@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'air_controller.dart';
 import 'typed_state_key.dart';
 
 /// A widget that listens to a list of [AirStateKey]s and executes a
@@ -68,13 +67,13 @@ class _AirListenerState extends State<AirListener> {
 
   void _subscribe() {
     for (final key in widget.listen) {
-      Air().typedController(key).addListener(_onStateChanged);
+      key.controller.addListener(_onStateChanged);
     }
   }
 
   void _unsubscribe(List<AirStateKey> keys) {
     for (final key in keys) {
-      Air().typedController(key).removeListener(_onStateChanged);
+      key.controller.removeListener(_onStateChanged);
     }
   }
 

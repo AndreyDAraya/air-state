@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.7
+
+### Architecture Improvements
+
+- **Strong Type Retention in AirListener**: Improved the generic type resolution mechanism when iterating over `List<AirStateKey>`. Controller resolution now utilizes dynamic dispatch directly on the `AirStateKey<T>` instance, guaranteeing the preservation of the explicit generic type `T` and ensuring strictly typed state initialization.
+
 ## 1.0.6
 
 ### Improvements

@@ -1,6 +1,6 @@
 name: air_state
 description: A lightweight, modular state management library for the Air Framework.
-version: 1.0.6
+version: 1.0.7
 homepage: https://github.com/AndreyDAraya/air-state
 repository: https://github.com/AndreyDAraya/air-state
 

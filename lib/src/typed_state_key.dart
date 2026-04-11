@@ -22,6 +22,12 @@ abstract class AirStateKey<T> {
   /// Creates an [AirStateKey] with a required [key] and optional [defaultValue].
   const AirStateKey(this.key, {this.defaultValue});
 
+  /// Resolves the controller preserving the original [T] signature via polymorphism.
+  /// 
+  /// Since this getter is defined inside the typed instance, it implicitly
+  /// retains the [T] type even when accessed from generic collections like `List<AirStateKey>`.
+  AirController<T> get controller => Air().typedController<T>(this);
+
   @override
   String toString() => 'AirStateKey<$T>($key)';
 
