@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.5
+
+### Improvements
+
+- **AirListener**: Introduced the `AirListener` widget for handling one-off side effects (navigation, SnackBars) reactively without triggering UI rebuilds. This component promotes better separation of concerns and keeps the widget `build` methods pure.
+
 ## 1.0.4
 
 ### Bug Fixes
