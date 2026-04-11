@@ -15,6 +15,20 @@ class AirPulse<T> {
   final String name;
   const AirPulse(this.name);
 
+  /// Callable shorthand — allows `AuthPulses.clearMessages(null)` syntax.
+  void call(
+    T params, {
+    String? sourceModuleId,
+    VoidCallback? onSuccess,
+    void Function(String)? onError,
+  }) =>
+      pulse(
+        params,
+        sourceModuleId: sourceModuleId,
+        onSuccess: onSuccess,
+        onError: onError,
+      );
+
   /// Emit this signal with type-safe parameters
   void pulse(
     T params, {

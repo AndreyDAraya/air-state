@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6
+
+### Improvements
+
+- **AirPulse Callable Shorthand**: `AirPulse<T>` is now a callable class. Use `AuthPulses.clearMessages(null)` instead of `AuthPulses.clearMessages.pulse(null)`. The explicit `.pulse()` method remains available for backward compatibility.
+
 ## 1.0.5
 
 ### Improvements
